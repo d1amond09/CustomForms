@@ -114,27 +114,30 @@ const TemplateDetailPage = () => {
                     <Card className="shadow-sm mb-4">
                         <Card.Body>
                             {canCurrentUserManage && (
-                                <Stack direction="horizontal" gap={2} className="mb-3 justify-content-end border-bottom pb-2">
-                                    <span className='me-auto text-muted small'>{t('templates.detail.managementActions', 'Management Actions:')}</span>
+                                <Stack direction="horizontal" gap={2} className="mb-3 justify-content-between border-bottom pb-2">
+                                    <Card.Title as="h1" className='mb-1'>{title}</Card.Title>
                                     <Button
                                         variant="outline-danger" size="sm"
                                         onClick={handleDeleteTemplate} disabled={isDeletingTemplate}
                                         title={t('templates.detail.deleteTemplateTitle', 'Delete this template')}
                                     >
-                                        {isDeletingTemplate ? <Spinner size="sm" animation="border" /> : <BsTrash className='me-1' />} {t('common.delete', 'Delete')} Template
+                                        {isDeletingTemplate ? <Spinner size="sm" animation="border" /> : <BsTrash className='me-1' />} {t('templates.detail.deleteTemplateTitle', 'Delete this template')}
                                     </Button>
                                 </Stack>
                             )}
-                            <Card.Title as="h1" className='mb-1'>{title}</Card.Title>
                             <div className="d-flex justify-content-between align-items-center mb-2 text-muted flex-wrap gap-2 small">
-                                <span>{t('templates.detail.byAuthor', 'By: {{authorName}}', { authorName })}</span>
-                                <span><Badge bg="secondary">{topicName}</Badge></span>
+                                <span>{t('templates.detail.byAuthor', 'By:')} {authorName}</span>
+                                <span><Badge className="px-3 py-2 fs-6 tag-cloud-badge" bg="secondary">{topicName}</Badge></span>
                                 <span>
-                                    <Badge bg={isPublic ? 'success-subtle' : 'warning-subtle'} text={isPublic ? 'success-emphasis' : 'warning-emphasis'}>
+                                    <Badge
+                                        bg={isPublic ? 'success-subtle' : 'warning-subtle'}
+                                        text={isPublic ? 'success-emphasis' : 'warning-emphasis'}
+                                        className="px-3 py-2 fs-6 tag-cloud-badge"
+                                    >
                                         {isPublic ? t('templates.detail.statusPublic', 'Public') : t('templates.detail.statusRestricted', 'Restricted')}
                                     </Badge>
                                 </span>
-                                <span>{t('templates.detail.createdDate', 'Created: {{date}}', { date: dateFormatter.format(new Date(createdDate)) })}</span>
+                                <span>{t('templates.detail.createdDate', 'Created')}: {dateFormatter.format(new Date(createdDate)) }</span>
                             </div>
                             {imageUrl && <Image src={imageUrl} alt={title} fluid rounded className="my-3" style={{ maxHeight: '350px', objectFit: 'cover', width: '100%' }} />}
                             <div className="mb-3 description-content">
@@ -188,7 +191,7 @@ const TemplateDetailPage = () => {
                         currentUserId={currentUser?.id} isAdmin={isAdmin} isAuthenticated={isAuthenticated}
                     />
                 </Col>
-                <Col xs={12} lg={4}>
+                <Col xs={12} lg={4} style={{ zIndex: 0 }}>
                     <Tabs defaultActiveKey="questions" id="template-details-tabs" className="mb-3 template-tabs sticky-lg-top bg-body" mountOnEnter>
                         <Tab eventKey="questions" title={t('templates.detail.tabQuestions', 'Questions ({{count}})', { count: questions.length })} className="py-3">
                             <QuestionListEditor

@@ -5,8 +5,10 @@ import { useGetFormsQuery, useDeleteFormMutation } from '../../../app/api/formsA
 import PaginationComponent from '../../../components/Common/PaginationComponent';
 import { BsEye, BsTrash } from 'react-icons/bs';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const UserFormTable = ({ userId }) => {
+    const { t } = useTranslation();
     const [page, setPage] = useState(1);
     const pageSize = 10;
 
@@ -54,15 +56,15 @@ const UserFormTable = ({ userId }) => {
         return <p className="text-muted">You haven't submitted any forms yet.</p>;
     }
 
-
+    const dateFormatter = new Intl.DateTimeFormat(t('localeCode', 'en-US'));
     return (
         <>
             <Table striped bordered hover responsive size="sm">
                 <thead>
                     <tr>
-                        <th>Template Title</th>
-                        <th>Filled Date</th>
-                        <th>Actions</th>
+                        <th>{t('forms.templateTitle', 'Template Title')}</th>
+                        <th>{t('forms.results.colFilledDate', 'Filled Date')}</th>
+                        <th>{t('forms.results.colActions', 'Actions')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,11 +75,17 @@ const UserFormTable = ({ userId }) => {
                                     <a href={`/templates/${form.templateId}`} className="text-decoration-none">{form.templateTitle || 'N/A'}</a>
                                 </LinkContainer>
                             </td>
-                            <td>{new Date(form.filledDate).toLocaleString()}</td>
+                            <td> {dateFormatter.format(new Date(form.filledDate))}</td>
+                    
                             <td>
                                 <Stack direction="horizontal" gap={1}>
                                     <LinkContainer to={`/forms/${form.id}`}>
-                                        <Button variant="outline-info" size="sm" title="View Details"><BsEye /></Button>
+                                        <Button
+                                            variant="outline-info"
+                                            size="sm"
+                                            title={t('forms.results.viewDetails', 'View Details')}>
+                                            <BsEye />
+                                        </Button>
                                     </LinkContainer>
                                     <Button
                                         variant="outline-danger"

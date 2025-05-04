@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Card, Form, Button, Stack, Spinner, Alert, CloseButton } from 'react-bootstrap';
 import { BsTrash } from 'react-icons/bs';
+import { useTranslation } from 'react-i18next';
 
 const CommentSection = ({ comments = [], isLoading, isAddingComment, onAddComment, onDeleteComment, currentUserId, isAdmin, isAuthenticated }) => {
+    const { t } = useTranslation();
     const [newComment, setNewComment] = useState('');
     const [addError, setAddError] = useState(''); 
 
@@ -13,14 +15,14 @@ const CommentSection = ({ comments = [], isLoading, isAddingComment, onAddCommen
             await onAddComment(newComment); 
             setNewComment(''); 
         } catch (error) {
-            setAddError(error?.data?.message || error?.message || "Failed to add comment");
+            setAddError(error?.data?.message || error?.message || t('templates.detail.commentAddError', "Failed to add comment"));
         }
     };
 
     return (
         <Card className="mt-4 shadow-sm">
             <Card.Body>
-                <Card.Title as="h5">Comments ({comments.length})</Card.Title>
+                <Card.Title as="h5">{t('templates.detail.commentsTitle', 'Comments')} ({comments.length})</Card.Title>
 
                 {isAuthenticated && ( 
                     <Form className="my-3">
@@ -29,7 +31,7 @@ const CommentSection = ({ comments = [], isLoading, isAddingComment, onAddCommen
                             <Form.Control
                                 as="textarea"
                                 rows={2}
-                                placeholder="Add your comment..."
+                                placeholder={t('templates.detail.addCommentPlaceholder', "Add your comment...")}
                                 value={newComment}
                                 onChange={(e) => setNewComment(e.target.value)}
                                 disabled={isAddingComment}
@@ -42,15 +44,15 @@ const CommentSection = ({ comments = [], isLoading, isAddingComment, onAddCommen
                             onClick={handleAddClick}
                             disabled={isAddingComment || !newComment.trim()}
                         >
-                            {isAddingComment ? <Spinner animation="border" size="sm" /> : 'Post Comment'}
+                            {isAddingComment ? <Spinner animation="border" size="sm" /> : t('templates.detail.addCommentButton', "Post Comment")}
                         </Button>
                     </Form>
                 )}
-                {!isAuthenticated && <p className='text-muted small my-3'>Please log in to add comments.</p>}
+                {!isAuthenticated && <p className='text-muted small my-3'>{t('templates.detail.loginToComment', 'Please log in to add comments.')}</p>}
 
                 <div className="mt-4"> 
                     {isLoading && <div className="text-center"><Spinner animation="border" /></div>}
-                    {!isLoading && comments.length === 0 && <p className='text-muted'>No comments yet.</p>}
+                    {!isLoading && comments.length === 0 && <p className='text-muted'>{t('templates.detail.noComments', 'No comments yet.')}</p>}
 
                     <Stack gap={3}>
                         {comments.map(comment => {

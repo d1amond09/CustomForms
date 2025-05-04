@@ -7,6 +7,7 @@ import RegisterPage from './features/auth/components/RegisterPage';
 import TemplateDetailPage from './features/templates/pages/TemplateDetailPage';
 import CreateTemplatePage from './features/templates/pages/CreateTemplatePage';
 import FillFormPage from './features/forms/pages/FillFormPage';
+import ViewSubmittedFormPage from './features/forms/pages/ViewSubmittedFormPage';
 import ProfilePage from './features/profile/pages/ProfilePage';
 import SearchResultsPage from './features/search/pages/SearchResultsPage';
 import AdminUsersPage from './features/admin/pages/AdminUsersPage';
@@ -68,6 +69,7 @@ function App() {
                 <Route element={<RequireAuth />}>
                     <Route path="/templates/new" element={<CreateTemplatePage />} />
                     <Route path="/forms/fill/:templateId" element={<FillFormPage />} />
+                    <Route path="/forms/:id" element={<ViewSubmittedFormPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                 </Route>
 

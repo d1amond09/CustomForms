@@ -5,8 +5,10 @@ import { useGetTemplatesQuery, useDeleteTemplateMutation } from '../../../app/ap
 import PaginationComponent from '../../../components/Common/PaginationComponent';
 import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const UserTemplateTable = ({ userId }) => {
+    const { t } = useTranslation();
     const [page, setPage] = useState(1);
     const pageSize = 10;
     const queryParams = {
@@ -60,18 +62,18 @@ const UserTemplateTable = ({ userId }) => {
             <Table striped bordered hover responsive size="sm" className="user-templates-table">
                 <thead className='table-light'>
                     <tr>
-                        <th>Title</th>
-                        <th>Topic</th>
-                        <th>Status</th>
-                        <th>Created</th>
-                        <th>Responses</th>
-                        <th className="text-center">Actions</th>
+                        <th>{t('templates.detail.title', 'Title')}</th>
+                        <th> {t('templates.detail.topic', 'Topic')}</th>
+                        <th>{t('templates.detail.status', 'Status')}</th>
+                        <th>{t('templates.detail.createdDate', 'Created')}</th>
+                        <th>{t('templates.detail.responses', 'Responses')}</th>
+                        <th className="text-center">{t('templates.detail.actions', 'Actions')}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {templates.map(template => (
                         <tr key={template.id}>
-                            <td>
+                            <td> 
                                 <LinkContainer to={`/templates/${template.id}`}>
                                     <a href={`/templates/${template.id}`} className="text-primary text-decoration-none">{template.title}</a>
                                 </LinkContainer>
@@ -79,7 +81,7 @@ const UserTemplateTable = ({ userId }) => {
                             <td><Badge bg="secondary">{template.topicName || 'N/A'}</Badge></td>
                             <td>
                                 <Badge bg={template.isPublic ? 'success-subtle' : 'warning-subtle'} text={template.isPublic ? 'success-emphasis' : 'warning-emphasis'}>
-                                    {template.isPublic ? 'Public' : 'Restricted'}
+                                    {template.isPublic ? t('templates.detail.statusPublic', 'Public') : t('templates.detail.statusRestricted', 'Restricted')}
                                 </Badge>
                             </td>
                             <td>{new Date(template.createdDate).toLocaleDateString()}</td>
@@ -87,10 +89,7 @@ const UserTemplateTable = ({ userId }) => {
                             <td className="text-center">
                                 <Stack direction="horizontal" gap={1} className="justify-content-center">
                                     <LinkContainer to={`/templates/${template.id}`}>
-                                        <Button variant="outline-info" size="sm" title="View Details"><BsEye /></Button>
-                                    </LinkContainer>
-                                    <LinkContainer to={`/templates/${template.id}/edit`}>
-                                        <Button variant="outline-primary" size="sm" title="Edit Settings"><BsPencil /></Button>
+                                        <Button variant="outline-primary" size="sm" title="View Details"><BsPencil /></Button>
                                     </LinkContainer>
                                     <Button
                                         variant="outline-danger"

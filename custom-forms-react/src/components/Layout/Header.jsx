@@ -90,6 +90,7 @@ const Header = ({ currentTheme, onToggleTheme }) => {
                                     )
                                 }
                                 id="user-dropdown"
+                                style={{ zIndex: 1050 }}
                                 align="end"
                             >
                                 <NavDropdown.Header className="small">{user.userName}</NavDropdown.Header>

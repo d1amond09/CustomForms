@@ -77,14 +77,18 @@
     },
     "templates": {
         "detail": {
+            "title": "Название",
+            "responses": "Ответы",
+            "actions": "Действия",
+            "status": "Статус",
             "errorLoading": "Ошибка загрузки деталей шаблона.",
             "notFound": "Шаблон не найден.",
             "accessDenied": "У вас нет разрешения просматривать этот шаблон.",
-            "byAuthor": "Автор: {{authorName}}",
+            "byAuthor": "Автор:",
             "topic": "Тема",
             "statusPublic": "Публичный",
             "statusRestricted": "Ограниченный",
-            "createdDate": "Создано: {{date}}",
+            "createdDate": "Создано",
             "fillForm": "Заполнить форму",
             "loginToFill": "Войдите, чтобы заполнить",
             "like": "Нравится",
@@ -98,7 +102,7 @@
             "deleteConfirm": "Вы уверены, что хотите удалить этот шаблон? Это удалит все его вопросы, но не отправленные формы.",
             "deleteSuccess": "Шаблон успешно удален.",
             "deleteError": "Не удалось удалить шаблон. Проверьте, есть ли отправленные формы.",
-            "commentsTitle": "Комментарии ({{count}})",
+            "commentsTitle": "Комментарии",
             "addCommentPlaceholder": "Добавьте свой комментарий...",
             "addCommentButton": "Опубликовать комментарий",
             "commentAdded": "Комментарий добавлен!",
@@ -113,6 +117,7 @@
             "tabAggregation": "Агрегация",
             "tabSettings": "Настройки",
             "noQuestions": "Пока нет добавленных вопросов.",
+            "noDescription": "Описание не предоставлено.",
             "addQuestionButton": "Добавить вопрос"
         },
         "card": {
@@ -143,6 +148,10 @@
             }
         },
         "question": {
+            "title": "Вопрос",
+            "description": "Описание",
+            "save": "Сохранить",
+            "cancel": "Отмена",
             "showInResults": "Показать в таблице результатов:",
             "yes": "Да",
             "no": "Нет",
@@ -150,6 +159,7 @@
             "deleteSuccess": "Вопрос удален.",
             "deleteError": "Не удалось удалить вопрос.",
             "editTitle": "Редактировать вопрос",
+            "noQuestions": "Вопросы еще не добавлены.",
             "addTitle": "Добавить новый вопрос",
             "saveError": "Не удалось сохранить вопрос.",
             "saveSuccessAdd": "Вопрос успешно добавлен!",
@@ -176,7 +186,31 @@
         },
         "reorderError": "Не удалось сохранить новый порядок."
     },
+    "viewForm": {
+        "loading": "Загрузка деталей формы...",
+        "title": "Детали отправленной формы",
+        "templateLabel": "Шаблон:",
+        "submittedByLabel": "Отправлено:",
+        "submittedOnLabel": "Отправлено:",
+        "answersTitle": "Ответы",
+        "noAnswers": "Ответы не были записаны для этой отправки.",
+        "unknownUser": "Неизвестный пользователь",
+        "notAvailable": "Недоступно",
+        "questionIdPlaceholder": "Идентификатор вопроса: {{id}}",
+        "answerValues": {
+            "yes": "Да",
+            "no": "Нет",
+            "empty": "(пусто)"
+        },
+        "errors": {
+            "loadFailed": "Не удалось загрузить детали отправленной формы.",
+            "notFound": "Форма не найдена.",
+            "accessDenied": "У вас нет разрешения просматривать эту форму.",
+            "networkError": "Сетевая ошибка"
+        }
+    },
     "forms": {
+        "templateTitle": "Название шаблона",
         "fillPageTitle": "Заполнить форму: {{title}}",
         "fillPageDescription": "Заполните вопросы ниже.",
         "submitButton": "Отправить ответы",
@@ -228,8 +262,8 @@
     },
     "search": {
         "title": "Результаты поиска",
-        "titleForQuery": "Результаты поиска для: \"{{query}}\"",
-        "titleForTag": "Результаты поиска по тегу: \"{{tag}}\"",
+        "titleForQuery": "для:",
+        "titleForTag": "по тегу:",
         "error": "Ошибка загрузки результатов поиска.",
         "noResults": "Не найдено шаблонов, соответствующих вашим критериям поиска."
     },

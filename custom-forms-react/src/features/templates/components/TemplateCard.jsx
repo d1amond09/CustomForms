@@ -1,22 +1,26 @@
 import { Card, Badge, Stack } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { BsChatSquareDots, BsStar, BsWindow } from 'react-icons/bs';
+import { useTranslation } from 'react-i18next';
 
 const TemplateCard = ({ template }) => {
+    const { t } = useTranslation();
+    const dateFormatter = new Intl.DateTimeFormat(t('localeCode', 'en-US'));
     return (
         <Card className="h-100 shadow-sm template-card">
             <Card.Body className="d-flex flex-column">
                 <div className="d-flex justify-content-between align-items-start mb-2">
                     <Badge bg="secondary">{template.topicName || 'No Topic'}</Badge>
                     <Badge bg={template.isPublic ? 'success-subtle' : 'warning-subtle'} text={template.isPublic ? 'success-emphasis' : 'warning-emphasis'}>
-                        {template.isPublic ? 'Public' : 'Restricted'}
+                        {template.isPublic ? t('templates.detail.statusPublic', 'Public') : t('templates.detail.statusRestricted', 'Restricted')}
                     </Badge>
                 </div>
                 <LinkContainer to={`/templates/${template.id}`} style={{ cursor: 'pointer' }}>
                     <Card.Title as="h6" className="mb-1 text-primary text-decoration-none stretched-link">{template.title}</Card.Title>
                 </LinkContainer>
-                <Card.Subtitle className="mb-2 text-muted small">
-                    By {template.authorName || 'Unknown'} on {new Date(template.createdDate).toLocaleDateString()}
+                <Card.Subtitle className="mb-2 mt-2 text-muted small">
+                    {t('templates.detail.byAuthor', 'By')} {template.authorName || 'Unknown'} <br/>
+                    {t('templates.detail.createdDate', 'Created')}: {dateFormatter.format(new Date(template.createdDate))}
                 </Card.Subtitle>
                 <div className="mt-auto d-flex justify-content-end small text-body-secondary gap-3 pt-2">
                     <span className="d-flex align-items-center" title="Responses">

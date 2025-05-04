@@ -75,16 +75,43 @@
         "errorPasswordMatch": "Passwords do not match",
         "errorInvalidEmail": "Invalid email address"
     },
+    "viewForm": {
+        "loading": "Loading form details...",
+        "title": "Submitted Form Details",
+        "templateLabel": "Template:",
+        "submittedByLabel": "Submitted By:",
+        "submittedOnLabel": "Submitted On:",
+        "answersTitle": "Answers",
+        "noAnswers": "No answers were recorded for this submission.",
+        "unknownUser": "Unknown User",
+        "notAvailable": "N/A",
+        "questionIdPlaceholder": "Question ID: {{id}}",
+        "answerValues": { 
+            "yes": "Yes",
+            "no": "No",
+            "empty": "(empty)"
+        },
+        "errors": {
+            "loadFailed": "Could not load the submitted form details.",
+            "notFound": "The form was not found.",
+            "accessDenied": "You do not have permission to view this form.",
+            "networkError": "Network error" 
+        }
+    },
     "templates": {
         "detail": {
+            "title": "Title",
+            "responses": "Responses",
+            "actions": "Actions",
+            "status": "Status",
             "errorLoading": "Error loading template details.",
             "notFound": "Template not found.",
             "accessDenied": "You do not have permission to view this template.",
-            "byAuthor": "By: {{authorName}}",
+            "byAuthor": "By:",
             "topic": "Topic",
             "statusPublic": "Public",
             "statusRestricted": "Restricted",
-            "createdDate": "Created: {{date}}",
+            "createdDate": "Created",
             "fillForm": "Fill Out Form",
             "loginToFill": "Login to Fill",
             "like": "Like",
@@ -98,7 +125,7 @@
             "deleteConfirm": "Are you sure you want to delete this template? This will delete all its questions but not the submitted forms.",
             "deleteSuccess": "Template deleted successfully.",
             "deleteError": "Failed to delete template. Check if there are submitted forms.",
-            "commentsTitle": "Comments ({{count}})",
+            "commentsTitle": "Comments",
             "addCommentPlaceholder": "Add your comment...",
             "addCommentButton": "Post Comment",
             "commentAdded": "Comment added!",
@@ -113,6 +140,7 @@
             "tabAggregation": "Aggregation",
             "tabSettings": "Settings",
             "noQuestions": "No questions added yet.",
+            "noDescription": "No description provided.",
             "addQuestionButton": "Add Question"
         },
         "card": {
@@ -143,6 +171,10 @@
             }
         },
         "question": {
+            "title": "Title",
+            "description": "Description",
+            "save": "Save Changes",
+            "cancel": "Cancel",
             "showInResults": "Show in results table:",
             "yes": "Yes",
             "no": "No",
@@ -151,6 +183,7 @@
             "deleteError": "Failed to delete question.",
             "editTitle": "Edit Question",
             "addTitle": "Add New Question",
+            "noQuestions": "No questions added yet.",
             "saveError": "Failed to save question.",
             "saveSuccessAdd": "Question added successfully!",
             "saveSuccessUpdate": "Question updated successfully!",
@@ -177,6 +210,7 @@
         "reorderError": "Failed to save new order."
     },
     "forms": {
+        "templateTitle": "Template Title",
         "fillPageTitle": "Fill Form: {{title}}",
         "fillPageDescription": "Fill out the questions below.",
         "submitButton": "Submit Answers",
@@ -229,8 +263,8 @@
     },
     "search": {
         "title": "Search Results",
-        "titleForQuery": "Search Results for: \"{{query}}\"",
-        "titleForTag": "Search Results for tag: \"{{tag}}\"",
+        "titleForQuery": "for:",
+        "titleForTag": "for tag:",
         "error": "Error loading search results.",
         "noResults": "No templates found matching your search criteria."
     },

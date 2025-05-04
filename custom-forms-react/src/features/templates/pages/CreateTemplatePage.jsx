@@ -97,8 +97,6 @@ const CreateTemplatePage = () => {
             allowedUserIds: !data.isPublic ? allowedUsers.map(u => u.id) : null,
         };
 
-        console.log({ templateData });
-
         if (!templateData.topicId) {
             setApiError(t('createTemplate.errors.topicRequired', "Please select a topic."));
             return;

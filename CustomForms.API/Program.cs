@@ -17,7 +17,6 @@ var app = builder.Build();
 {
 	app.UseExceptionHandler();
 	app.UseCors("CorsPolicy");
-	//app.UseInfrastructure();
 
 	if (app.Environment.IsDevelopment())
 	{

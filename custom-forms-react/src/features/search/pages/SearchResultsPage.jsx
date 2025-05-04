@@ -4,8 +4,10 @@ import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { useGetTemplatesQuery } from '../../../app/api/templatesApi';
 import TemplateCard from '../../templates/components/TemplateCard';
 import PaginationComponent from '../../../components/Common/PaginationComponent';
+import { useTranslation } from 'react-i18next';
 
 const SearchResultsPage = () => {
+    const { t } = useTranslation();
     const [searchParams] = useSearchParams();
     const query = searchParams.get('query') || '';
     const tag = searchParams.get('tag');
@@ -44,14 +46,14 @@ const SearchResultsPage = () => {
         }
 
         if (error) {
-            return <Alert variant="danger">Error loading search results. {JSON.stringify(error.data?.message || error.status)}</Alert>;
+            return <Alert variant="danger">{t('search.error', 'Error loading search results.')} {JSON.stringify(error.data?.message || error.status)}</Alert>;
         }
 
         const templates = data?.items;
         const metaData = data?.metaData;
 
         if (!templates || templates.length === 0) {
-            return <p className="text-muted text-center py-4">No templates found matching your criteria.</p>;
+            return <p className="text-muted text-center py-4">{t('search.noResults', 'No templates found matching your criteria.')}</p>;
         }
 
         return (
@@ -78,7 +80,7 @@ const SearchResultsPage = () => {
     return (
         <Container fluid="xl" className="my-4">
             <h2 className="mb-4">
-                Search Results {query && `for: "${query}"`} {tag && `for tag: "${tag}"`}
+                {t('search.title', 'Search Results')} {query && ` ${t('search.titleForQuery', 'Search Results')} "${query}"`} {tag && `${t('search.titleForTag', 'Search Results')} "${tag}"`}
             </h2>
             {renderContent()}
         </Container>

@@ -6,8 +6,10 @@ import { BsPlusCircle, BsTrash, BsPencil, BsArrowsMove } from 'react-icons/bs';
 import QuestionRenderer from './QuestionRenderer';
 import QuestionFormModal from './QuestionFormModal';
 import { useRemoveQuestionMutation, useReorderQuestionsMutation } from '../../../app/api/templatesApi';
+import { useTranslation } from 'react-i18next';
 
 const QuestionListEditor = ({ templateId, initialQuestions = [], canManage, onQuestionsUpdated }) => {
+    const { t } = useTranslation();
     const [questions, setQuestions] = useState(initialQuestions);
     const [showModal, setShowModal] = useState(false);
     const [editingQuestion, setEditingQuestion] = useState(null);
@@ -42,13 +44,13 @@ const QuestionListEditor = ({ templateId, initialQuestions = [], canManage, onQu
     };
 
     const handleDeleteQuestion = async (questionId) => {
-        if (window.confirm('Are you sure you want to delete this question?')) {
+        if (window.confirm(t('templates.question.deleteConfirm', 'Are you sure you want to delete this question?'))) {
             try {
                 await removeQuestion({ templateId, questionId }).unwrap();
-                toast.success('Question deleted.');
+                toast.success(t('templates.question.deleteSuccess', 'Question deleted.'));
                 if (onQuestionsUpdated) onQuestionsUpdated();
             } catch (err) {
-                toast.error(err?.data?.message || 'Failed to delete question.');
+                toast.error(err?.data?.message || t('templates.question.deleteError', 'Failed to delete question.'));
             }
         }
     };
@@ -78,7 +80,7 @@ const QuestionListEditor = ({ templateId, initialQuestions = [], canManage, onQu
         try {
             await reorderQuestions({ templateId, reorderData: { orderedQuestionIds } }).unwrap();
         } catch (err) {
-            toast.error(err?.data?.message || 'Failed to save new order.');
+            toast.error(err?.data?.message || t('templates.question.saveError', 'Failed to save new order.'));
             console.error("Reorder failed:", err);
             setQuestions(initialQuestions);
         }
@@ -102,11 +104,11 @@ const QuestionListEditor = ({ templateId, initialQuestions = [], canManage, onQu
         <>
             {canManage && (
                 <Button variant="success" size="sm" className="mb-3 d-flex align-items-center" onClick={handleShowAddModal}>
-                    <BsPlusCircle className="me-1" /> Add Question
+                    <BsPlusCircle className="me-1" /> {t('templates.question.addTitle', 'Add Question') }
                 </Button>
             )}
 
-            {questions.length === 0 && <p className='text-muted'>No questions added yet.</p>}
+            {questions.length === 0 && <p className='text-muted'>{t('templates.question.noQuestions', 'No questions added yet.')}</p>}
 
             <DragDropContext onDragEnd={handleOnDragEnd}>
                 <Droppable

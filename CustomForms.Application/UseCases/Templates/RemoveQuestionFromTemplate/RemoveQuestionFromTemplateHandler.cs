@@ -14,7 +14,6 @@ public class RemoveQuestionFromTemplateHandler(IRepositoryManager repManager, IC
 	{
 		var template = await _repManager.Templates
 			.FindByCondition(t => t.Id == request.TemplateId, trackChanges: true)
-			.Include(t => t.Questions) 
 			.FirstOrDefaultAsync(cancellationToken);
 
 		if (template == null)
