@@ -1,0 +1,335 @@
+{
+    "localeCode": "en-US",
+    "header": {
+        "title": "Custom Forms",
+        "searchPlaceholder": "Search templates...",
+        "switchToDark": "Switch to dark mode",
+        "switchToLight": "Switch to light mode",
+        "profile": "Profile",
+        "admin": "Admin Panel",
+        "logout": "Logout",
+        "login": "Login",
+        "register": "Register",
+        "createTemplate": "Create Template"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "An error occurred.",
+        "noData": "No data available.",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "view": "View",
+        "add": "Add",
+        "remove": "Remove",
+        "search": "Search",
+        "requiredField": "This field is required",
+        "loginRequiredAction": "Please log in to perform this action.",
+        "confirmActionTitle": "Confirm Action",
+        "confirmDeleteMessage": "Are you sure you want to delete this item? This action cannot be undone."
+    },
+    "pagination": {
+        "previous": "Previous",
+        "next": "Next",
+        "pageInfo": "Page {{currentPage}} of {{totalPages}}"
+    },
+    "home": {
+        "welcomeTitle": "Welcome to Custom Forms!",
+        "welcomeSubtitle": "Create and share your forms easily.",
+        "latestTemplates": "Latest Templates",
+        "popularTemplates": "Popular Templates",
+        "tags": "Popular Tags",
+        "errorLoadingTemplates": "Error loading templates",
+        "noTemplatesFound": "No templates found.",
+        "errorLoadingTags": "Error loading tags.",
+        "noTagsFound": "No tags found."
+    },
+    "loginPage": {
+        "title": "Login",
+        "usernameLabel": "Username",
+        "passwordLabel": "Password",
+        "submitButton": "Log In",
+        "registerPrompt": "Don't have an account?",
+        "registerLink": "Register here",
+        "loginFailed": "Login Failed",
+        "loginFailedDescription": "Invalid username or password.",
+        "accountBlocked": "User account is blocked.",
+        "unexpectedError": "An unexpected error occurred during login."
+    },
+    "registerPage": {
+        "title": "Register",
+        "usernameLabel": "Username",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "confirmPasswordLabel": "Confirm Password",
+        "firstNameLabel": "First Name (Optional)",
+        "lastNameLabel": "Last Name (Optional)",
+        "submitButton": "Register",
+        "loginPrompt": "Already have an account?",
+        "loginLink": "Login here",
+        "successTitle": "Registration Successful",
+        "successDescription": "Please check your email to confirm your account.",
+        "errorTitle": "Registration Failed",
+        "errorMinLength": "Password must be at least {{count}} characters",
+        "errorPasswordMatch": "Passwords do not match",
+        "errorInvalidEmail": "Invalid email address"
+    },
+    "templates": {
+        "detail": {
+            "errorLoading": "Error loading template details.",
+            "notFound": "Template not found.",
+            "accessDenied": "You do not have permission to view this template.",
+            "byAuthor": "By: {{authorName}}",
+            "topic": "Topic",
+            "statusPublic": "Public",
+            "statusRestricted": "Restricted",
+            "createdDate": "Created: {{date}}",
+            "fillForm": "Fill Out Form",
+            "loginToFill": "Login to Fill",
+            "like": "Like",
+            "unlike": "Unlike",
+            "loginToLike": "Login to like",
+            "likeError": "Failed to update like.",
+            "allowedUsers": "Allowed Users:",
+            "noAllowedUsers": "No specific users",
+            "managementActions": "Management Actions:",
+            "deleteTemplateTitle": "Delete this template",
+            "deleteConfirm": "Are you sure you want to delete this template? This will delete all its questions but not the submitted forms.",
+            "deleteSuccess": "Template deleted successfully.",
+            "deleteError": "Failed to delete template. Check if there are submitted forms.",
+            "commentsTitle": "Comments ({{count}})",
+            "addCommentPlaceholder": "Add your comment...",
+            "addCommentButton": "Post Comment",
+            "commentAdded": "Comment added!",
+            "commentAddError": "Failed to add comment.",
+            "deleteCommentConfirm": "Are you sure you want to delete this comment?",
+            "commentDeleted": "Comment deleted!",
+            "commentDeleteError": "Failed to delete comment.",
+            "noComments": "No comments yet.",
+            "loginToComment": "Please log in to add comments.",
+            "tabQuestions": "Questions ({{count}})",
+            "tabResults": "Results",
+            "tabAggregation": "Aggregation",
+            "tabSettings": "Settings",
+            "noQuestions": "No questions added yet.",
+            "addQuestionButton": "Add Question"
+        },
+        "card": {
+            "responses": "Responses",
+            "likes": "Likes"
+        },
+        "settings": {
+            "title": "Template Settings",
+            "subtitles": {
+                "general": "General Information",
+                "tags": "Tags",
+                "access": "Access Control"
+            },
+            "buttons": {
+                "saveDetails": "Save Details",
+                "saveTags": "Save Tags",
+                "saveAccess": "Save Access"
+            },
+            "updateSuccess": {
+                "details": "Template details updated.",
+                "access": "Access settings updated.",
+                "tags": "Tags updated."
+            },
+            "updateError": {
+                "details": "Failed to update details.",
+                "access": "Failed to update access settings.",
+                "tags": "Failed to update tags."
+            }
+        },
+        "question": {
+            "showInResults": "Show in results table:",
+            "yes": "Yes",
+            "no": "No",
+            "deleteConfirm": "Are you sure you want to delete this question?",
+            "deleteSuccess": "Question deleted.",
+            "deleteError": "Failed to delete question.",
+            "editTitle": "Edit Question",
+            "addTitle": "Add New Question",
+            "saveError": "Failed to save question.",
+            "saveSuccessAdd": "Question added successfully!",
+            "saveSuccessUpdate": "Question updated successfully!",
+            "errors": {
+                "titleRequired": "Title is required",
+                "typeRequired": "Question type is required"
+            },
+            "labels": {
+                "title": "Title",
+                "description": "Description",
+                "type": "Question Type",
+                "showInResults": "Show this question in the results table?"
+            },
+            "types": {
+                "String": "Single-line text",
+                "Text": "Multi-line text",
+                "Integer": "Positive Integer",
+                "Checkbox": "Checkbox (Yes/No)"
+            },
+            "hints": {
+                "typeChangeDisabled": "Question type cannot be changed after creation."
+            }
+        },
+        "reorderError": "Failed to save new order."
+    },
+    "forms": {
+        "fillPageTitle": "Fill Form: {{title}}",
+        "fillPageDescription": "Fill out the questions below.",
+        "submitButton": "Submit Answers",
+        "submitSuccessTitle": "Form Submitted",
+        "submitSuccessDescription": "Your answers have been recorded.",
+        "submitErrorTitle": "Submission Failed",
+        "submitErrorDescription": "Could not submit form.",
+        "loadError": "Could not load the form template.",
+        "accessDenied": "You do not have permission to fill this form.",
+        "results": {
+            "title": "Form Submissions",
+            "loadError": "Error loading results.",
+            "noSubmissions": "No submissions yet for this template.",
+            "deleteConfirm": "Are you sure you want to delete this submission?",
+            "deleteSuccess": "Submission deleted.",
+            "deleteError": "Failed to delete submission.",
+            "colUser": "User",
+            "colFilledDate": "Filled Date",
+            "colActions": "Actions",
+            "viewDetails": "View Details"
+        },
+        "aggregation": {
+            "title": "Response Aggregation",
+            "loadError": "Error loading aggregated data.",
+            "noData": "No submissions available for aggregation.",
+            "totalSubmissions": "Total Submissions:",
+            "numericStatsTitle": "{{title}} - Statistics",
+            "choiceChartTitle": "{{title}} - Responses",
+            "textWordsTitle": "{{title}} - Common Words",
+            "average": "Average",
+            "min": "Min",
+            "max": "Max",
+            "responses": "Responses",
+            "commonWordsNotFound": "No common words found.",
+            "chartPlaceholder": "Chart Placeholder"
+        }
+    },
+    "profile": {
+        "title": "My Profile",
+        "userInfoTitle": "User Information",
+        "username": "Username:",
+        "email": "Email:",
+        "tabTemplates": "My Templates",
+        "tabForms": "My Submitted Forms",
+        "noTemplates": "You haven't created any templates yet.",
+        "noForms": "You haven't submitted any forms yet.",
+        "errorLoadingTemplates": "Error loading your templates.",
+        "errorLoadingForms": "Error loading your submitted forms.",
+        "loginRequired": "Please log in to view your profile."
+    },
+    "search": {
+        "title": "Search Results",
+        "titleForQuery": "Search Results for: \"{{query}}\"",
+        "titleForTag": "Search Results for tag: \"{{tag}}\"",
+        "error": "Error loading search results.",
+        "noResults": "No templates found matching your search criteria."
+    },
+    "admin": {
+        "users": {
+            "title": "User Management",
+            "errorLoading": "Error loading users.",
+            "noUsers": "No users found.",
+            "colUsername": "Username",
+            "colEmail": "Email",
+            "colRoles": "Roles",
+            "colStatus": "Status",
+            "colActions": "Actions",
+            "statusActive": "Active",
+            "statusBlocked": "Blocked",
+            "actionBlock": "Block",
+            "actionUnblock": "Unblock",
+            "actionDelete": "Delete",
+            "actionSetRole": "Set Roles",
+            "deleteConfirm": "Are you sure you want to delete user {{username}}? This action cannot be undone.",
+            "deleteSuccess": "User deleted successfully.",
+            "deleteError": "Failed to delete user.",
+            "blockSuccess": "User blocked successfully.",
+            "blockError": "Failed to block user.",
+            "unblockSuccess": "User unblocked successfully.",
+            "unblockError": "Failed to unblock user.",
+            "setRoleSuccess": "User roles updated successfully.",
+            "setRoleError": "Failed to update user roles.",
+            "cantBlockSelf": "Administrators cannot block themselves.",
+            "cantDeleteSelf": "Administrators cannot delete themselves.",
+            "cantRemoveOwnAdmin": "Administrators cannot remove their own admin role."
+        }
+    },
+    "templateSettings": {
+        "title": "Template Settings",
+        "subtitles": {
+            "general": "General Information",
+            "tags": "Tags",
+            "access": "Access Control"
+        },
+        "buttons": {
+            "saveDetails": "Save Details",
+            "saveTags": "Save Tags",
+            "saveAccess": "Save Access"
+        },
+        "updateSuccess": {
+            "details": "Template details updated.",
+            "access": "Access settings updated.",
+            "tags": "Tags updated."
+        },
+        "updateError": {
+            "details": "Failed to update details.",
+            "access": "Failed to update access settings.",
+            "tags": "Failed to update tags."
+        },
+        "noUsersSelected": "No users selected yet."
+    },
+    "createTemplate": {
+        "title": "Create New Template",
+        "labels": {
+            "title": "Title",
+            "description": "Description",
+            "topic": "Topic",
+            "selectTopic": "Select topic",
+            "tags": "Tags",
+            "isPublic": "Public Template (accessible to all logged-in users)",
+            "allowedUsers": "Allowed Users"
+        },
+        "hints": {
+            "markdown": "Markdown is supported (basic).",
+            "tags": "Separate tags with comma or Enter.",
+            "allowedUsers": "Start typing to find and add users allowed to fill this form."
+        },
+        "placeholders": {
+            "tags": "Type a tag and press Enter or Comma...",
+            "userSearch": "Search user by name or email..."
+        },
+        "errors": {
+            "titleRequired": "Title is required",
+            "topicRequired": "Topic is required.",
+            "topicLoadFail": "Error loading topics",
+            "noTopics": "No topics available. Please contact an administrator to add topics.",
+            "allowedUsersRequired": "Please select allowed users for a restricted template.",
+            "generalFail": "Could not create template."
+        },
+        "loading": "Loading...",
+        "submitButton": "Create Template",
+        "success": "Template Created Successfully!"
+    },
+    "validation": {
+        "required": "{{field}} is required",
+        "minLength": "{{field}} must be at least {{count}} characters",
+        "invalidEmail": "Invalid email address",
+        "passwordMatch": "Passwords do not match",
+        "positiveNumber": "Value must be zero or positive"
+    },
+    "notFound": {
+        "title": "404 - Page Not Found",
+        "message": "Sorry, the page you are looking for does not exist.",
+        "goHome": "Go to Homepage"
+    }
+}
