@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^5.0.1",
     "@reduxjs/toolkit": "^2.7.0",
     "@types/react": "^19.0.10",
