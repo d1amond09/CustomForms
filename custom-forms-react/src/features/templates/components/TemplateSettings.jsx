@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { Form, Button, Card, Spinner, Alert, Badge, CloseButton, Stack, Image as BsImage } from 'react-bootstrap';
+import { Form, Button, Card, Spinner, Alert, Badge, CloseButton, Image as BsImage } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useUpdateTemplateMutation, useSetAccessMutation, useSetTagsMutation } from '../../../app/api/templatesApi';
 import { useGetTopicsQuery } from '../../../app/api/topicsApi';
 import { useLazyGetUsersQuery } from '../../../app/api/usersApi';
-import { BsXLg } from 'react-icons/bs';
 import Select from 'react-select/async';
 import _debounce from 'lodash/debounce';
 import { useTranslation } from 'react-i18next';
@@ -302,11 +301,11 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
                         {currentImageUrl && (
                             <Form.Check
                                 type="checkbox"
-                                label={t('templateSettings.removeCurrentImage', 'Remove current image')} // Нет htmlFor
+                                label={t('templateSettings.removeCurrentImage', 'Remove current image')}
                                 checked={removeCurrentImage}
                                 onChange={handleRemoveCurrentImageChange}
                                 className="mt-2"
-                                id="removeCurrentImageCheckboxInternal" // Внутренний id для Form.Check, если нужен
+                                id="removeCurrentImageCheckboxInternal" 
                             />
                         )}
                     </Form.Group>
