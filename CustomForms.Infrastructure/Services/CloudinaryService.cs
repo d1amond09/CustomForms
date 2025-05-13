@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using CustomForms.Application.Common.Interfaces;
 using dotenv.net;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 
 namespace CustomForms.Infrastructure.Services;
@@ -12,7 +13,8 @@ public class CloudinaryService : ICloudinaryService
 	public CloudinaryService()
 	{
 		DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
-		_cloudinary = new Cloudinary(Environment.GetEnvironmentVariable("CLOUDINARY_URL"));
+		var account = new Account("dkhfoludi", "589415463274842", "bMEIYsSxPP_g3NhSz21x2h32Vr0");
+		_cloudinary = new Cloudinary(account);
 		_cloudinary.Api.Secure = true;
 	}
 

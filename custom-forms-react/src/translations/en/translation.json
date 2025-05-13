@@ -305,6 +305,14 @@
             "tags": "Tags",
             "access": "Access Control"
         },
+        "currentImage": "Current Image", 
+        "noImage": "No image uploaded.", 
+        "uploadNew": "Upload New Image", 
+        "removeCurrentImage": "Remove current image",
+        "userSearch": {
+            "prompt": "Type 2 or more characters to search users",
+            "noResults": "No users found matching your search"
+        },
         "buttons": {
             "saveDetails": "Save Details",
             "saveTags": "Save Tags",
@@ -325,6 +333,7 @@
     "createTemplate": {
         "title": "Create New Template",
         "labels": {
+            "image": "Illustration",
             "title": "Title",
             "description": "Description",
             "topic": "Topic",
@@ -334,6 +343,7 @@
             "allowedUsers": "Allowed Users"
         },
         "hints": {
+            "image": "Recommended size: 800x600px. Max 2MB.",
             "markdown": "Markdown is supported (basic).",
             "tags": "Separate tags with comma or Enter.",
             "allowedUsers": "Start typing to find and add users allowed to fill this form."

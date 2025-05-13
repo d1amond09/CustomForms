@@ -30,7 +30,14 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
     const [previewNewImage, setPreviewNewImage] = useState(null);
     const [removeCurrentImage, setRemoveCurrentImage] = useState(false);
 
-    const { register, handleSubmit, control, watch, reset, formState: { errors, isDirty: isMetaDirty } } = useForm();
+    const { register, handleSubmit, control, watch, reset, formState: { errors, isDirty: isMetaDirty } } = useForm({
+        defaultValues: {
+            title: template?.title || '',
+            description: template?.description || '',
+            topicId: template?.topicId || '',
+            isPublic: template?.isPublic ?? true, 
+        }
+    });
     const watchedIsPublic = watch('isPublic');
 
     const [tagsChanged, setTagsChanged] = useState(false);
@@ -143,6 +150,8 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
     };
 
     const onMetaSubmit = async (data) => {
+
+        console.log(data);
         setApiError(null);
         const updateData = {
             title: data.title,
@@ -152,7 +161,7 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
             removeCurrentImage: removeCurrentImage
         };
         try {
-            await updateTemplate({ id: templateId, templateData: updateData }).unwrap();
+            await updateTemplate({ id: templateId, templateDataWithFile: updateData }).unwrap();
             toast.success(t('templateSettings.updateSuccess.details', 'Details updated'));
             setNewImageFile(null); 
             setPreviewNewImage(null);
@@ -262,13 +271,19 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
                 <Form onSubmit={handleSubmit(onMetaSubmit)} className="mb-4 border-bottom pb-4">
                     <h6 className='mb-3'>{t('templateSettings.subtitles.general', 'General Information')}</h6>
                     {(metaError) && <Alert variant="danger" size="sm">{metaError?.data?.message || t('templateSettings.updateError.details')}</Alert>}
-                    <Form.Group className="mb-3" controlId="settingsTitle">
+                    <Form.Group className="mb-3" controlId="templateSettingsTitle">
                         <Form.Label>{t('createTemplate.labels.title')} <span className="text-danger">*</span></Form.Label>
-                        <Form.Control type="text" isInvalid={!!errors.title} {...register('title', { required: t('createTemplate.errors.titleRequired') })} />
+                        <Form.Control
+                            type="text"
+                            isInvalid={!!errors.title}
+                            {...register('title', { required: t('createTemplate.errors.titleRequired') })}
+                        />
                         <Form.Control.Feedback type="invalid">{errors.title?.message}</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group controlId="settingsImage" className="mb-3">
+                    
+
+                    <Form.Group controlId="templateSettingsImage" className="mb-3">
                         <Form.Label>{t('templateSettings.currentImage', 'Current Image')}</Form.Label>
                         {currentImageUrl && !previewNewImage && !removeCurrentImage ? (
                             <div className="mb-2">
@@ -281,29 +296,28 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
                         ) : (
                             <p className="text-muted small">{t('templateSettings.noImage', 'No image uploaded.')}</p>
                         )}
+                        <Form.Label className="mt-2">{t('templateSettings.uploadNew', 'Upload New Image')}</Form.Label> 
+                        <Form.Control type="file" accept="image/*" onChange={handleNewFileChange} /> 
 
-                        <Form.Label htmlFor="newImageFile" className="mt-2">{t('templateSettings.uploadNew', 'Upload New Image')}</Form.Label>
-                        <Form.Control type="file" id="newImageFile" accept="image/*" onChange={handleNewFileChange} />
-
-                        {currentImageUrl && ( 
+                        {currentImageUrl && (
                             <Form.Check
                                 type="checkbox"
-                                id="removeCurrentImageCheckbox"
-                                label={t('templateSettings.removeCurrentImage', 'Remove current image')}
+                                label={t('templateSettings.removeCurrentImage', 'Remove current image')} // Нет htmlFor
                                 checked={removeCurrentImage}
                                 onChange={handleRemoveCurrentImageChange}
                                 className="mt-2"
+                                id="removeCurrentImageCheckboxInternal" // Внутренний id для Form.Check, если нужен
                             />
                         )}
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="settingsDescription">
+                    <Form.Group className="mb-3" controlId="templateSettingsDescription">
                         <Form.Label>{t('createTemplate.labels.description')}</Form.Label>
                         <Form.Control as="textarea" rows={3} {...register('description')} />
                         <Form.Text muted>{t('createTemplate.hints.markdown')}</Form.Text>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="settingsTopic">
+                    <Form.Group className="mb-3" controlId="templateSettingsTopic">
                         <Form.Label>{t('createTemplate.labels.topic')} <span className="text-danger">*</span></Form.Label>
                         <Form.Select
                             aria-label={t('createTemplate.labels.selectTopic')}
@@ -329,7 +343,7 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
 
                 <Form onSubmit={(e) => { e.preventDefault(); onTagsSubmit(); }} className="mb-4 border-bottom pb-4">
                     {(tagsError) && <Alert variant="danger" size="sm">{tagsError?.data?.message || t('templateSettings.updateError.tags', 'Error updating tags')}</Alert>}
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" controlId="templateSettingsTagInput">
                         <Form.Label>{t('createTemplate.labels.tags')}</Form.Label>
                         <Form.Control
                             type="text"
@@ -357,7 +371,7 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
                     <h6 className='mb-3'>{t('templateSettings.subtitles.access', 'Access Control')}</h6>
                     {(accessError) && <Alert variant="danger" size="sm">{accessError?.data?.message || t('templateSettings.updateError.access', 'Error updating access')}</Alert>}
 
-                    <Form.Group className="mb-3" controlId="settingsIsPublic">
+                    <Form.Group className="mb-3" controlId="templateSettingsIsPublic">
                         <Controller
                             name="isPublic"
                             control={control}
@@ -376,7 +390,7 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
                     </Form.Group>
 
                     {!watchedIsPublic && (
-                        <Form.Group className="mb-3" controlId="templateAllowedUsers">
+                        <Form.Group className="mb-3" controlId="templateSettingsAllowedUsers">
                             <Form.Label>{t('createTemplate.labels.allowedUsers')} <span className="text-danger">*</span></Form.Label>
                             <Select
                                 id="user-select-async"

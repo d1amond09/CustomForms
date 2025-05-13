@@ -98,6 +98,7 @@ export const templatesApi = apiSlice.injectEndpoints({
 
         updateTemplate: builder.mutation({
             query: ({ id, templateDataWithFile }) => { 
+                console.log(templateDataWithFile);
                 const formData = new FormData();
                 formData.append('title', templateDataWithFile.title);
                 formData.append('description', templateDataWithFile.description || '');

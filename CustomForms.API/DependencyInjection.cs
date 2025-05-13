@@ -12,7 +12,8 @@ public static class DependencyInjection
 		services.AddCors(options =>
 		{
 			options.AddPolicy("CorsPolicy", builder =>
-			builder.WithOrigins(configuration.GetSection("Frontend").GetValue<string>("Default")!)
+			//builder.WithOrigins(configuration.GetSection("Frontend").GetValue<string>("Default")!)
+			builder.AllowAnyOrigin()
 			.AllowAnyMethod()
 			.AllowAnyHeader()
 			.WithExposedHeaders("X-Pagination"));
