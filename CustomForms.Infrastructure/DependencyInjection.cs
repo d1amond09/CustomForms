@@ -1,8 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System.Configuration;
+using System.Diagnostics;
 using System.Text;
 using CustomForms.Application.Common.DTOs;
 using CustomForms.Application.Common.Interfaces;
 using CustomForms.Domain.Users;
+using CustomForms.Infrastructure.CloudStorage;
 using CustomForms.Infrastructure.Common.Persistence;
 using CustomForms.Infrastructure.Security.CurrentUserService;
 using CustomForms.Infrastructure.Security.TokenGenerator;
@@ -27,7 +29,7 @@ public static class DependencyInjection
 	{
 		services
 			.AddHttpContextAccessor()
-			.AddServices()
+			.AddServices(configuration)
 			.AddAuthorization()
 			.AddConfigIdentity()
 			.AddAuthentication(configuration)
@@ -36,10 +38,14 @@ public static class DependencyInjection
 		return services;
 	}
 
-	private static IServiceCollection AddServices(this IServiceCollection services)
+	private static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
 	{
 		services.AddScoped<IDataShapeService<UserDto>, DataShapeService<UserDto>>();
 		services.AddScoped<ICloudinaryService, CloudinaryService>();
+
+		services.Configure<CloudStorageSettings>(configuration.GetSection("CloudStorage"));
+
+		services.AddHttpClient<ICloudStorageService, DropboxStorageService>();
 
 		return services;
 	}

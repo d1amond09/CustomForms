@@ -14,6 +14,8 @@ import { useAuth } from '../../hooks/useAuth';
 import { useAppDispatch } from '../../app/hooks';
 import { logOut } from '../../features/auth/authSlice';
 import LanguageSwitcher from '../Common/LanguageSwitcher'; 
+import { BsQuestionCircle } from 'react-icons/bs';
+import SupportTicketModal from '../../features/support/SupportTicketModal';
 import { BsSunFill, BsMoonStarsFill, BsSearch, BsPersonCircle, BsPlusCircle } from 'react-icons/bs'; 
 
 const Header = ({ currentTheme, onToggleTheme }) => {
@@ -22,6 +24,8 @@ const Header = ({ currentTheme, onToggleTheme }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
+
+    const [showSupportModal, setShowSupportModal] = useState(false);
 
     const handleLogout = () => {
         dispatch(logOut());
@@ -61,7 +65,15 @@ const Header = ({ currentTheme, onToggleTheme }) => {
 
                     <Nav className="ms-auto align-items-center">
                         <LanguageSwitcher className="me-2" />
-
+                        <Button
+                            variant="outline-info"
+                            size="sm"
+                            onClick={() => setShowSupportModal(true)}
+                            className="me-2 d-flex align-items-center"
+                            aria-label="Create support ticket"
+                        >
+                            <BsQuestionCircle className="me-1" /> Help
+                        </Button>
                         <Button
                             variant="outline-secondary"
                             size="sm"
@@ -102,6 +114,7 @@ const Header = ({ currentTheme, onToggleTheme }) => {
                                         <NavDropdown.Item>{t('header.admin', 'Admin Panel')}</NavDropdown.Item>
                                     </LinkContainer>
                                 )}
+                                
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={handleLogout}>{t('header.logout', 'Logout')}</NavDropdown.Item>
                             </NavDropdown>
@@ -117,9 +130,14 @@ const Header = ({ currentTheme, onToggleTheme }) => {
                                 </LinkContainer>
                             </>
                         )}
+                        
                     </Nav>
                 </Navbar.Collapse>
             </Container>
+            <SupportTicketModal
+                show={showSupportModal}
+                handleClose={() => setShowSupportModal(false)}
+            />
         </Navbar>
     );
 };
