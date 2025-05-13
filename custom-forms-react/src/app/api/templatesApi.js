@@ -98,7 +98,6 @@ export const templatesApi = apiSlice.injectEndpoints({
 
         updateTemplate: builder.mutation({
             query: ({ id, templateDataWithFile }) => { 
-                console.log(templateDataWithFile);
                 const formData = new FormData();
                 formData.append('title', templateDataWithFile.title);
                 formData.append('description', templateDataWithFile.description || '');
@@ -113,7 +112,6 @@ export const templatesApi = apiSlice.injectEndpoints({
                     url: `/templates/${id}`,
                     method: 'PUT',
                     body: formData,
-                    // formData: true,
                 };
             },
             invalidatesTags: (result, error, { id }) => [{ type: 'Template', id }, { type: 'Template', id: 'LIST' }],

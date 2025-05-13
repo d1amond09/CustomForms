@@ -149,8 +149,6 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
     };
 
     const onMetaSubmit = async (data) => {
-
-        console.log(data);
         setApiError(null);
         const updateData = {
             title: data.title,
