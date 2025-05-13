@@ -5,14 +5,16 @@ using CustomForms.Domain.Forms;
 using CustomForms.Domain.Users;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using CustomForms.Domain.Templates;
 
 namespace CustomForms.Application.UseCases.Templates.CreateTemplate;
 
-public class CreateTemplateHandler(IRepositoryManager repManager, ICurrentUserService currentUserService, IMapper mapper) : IRequestHandler<CreateTemplateUseCase, ApiBaseResponse>
+public class CreateTemplateHandler(IRepositoryManager repManager, ICurrentUserService currentUserService, ICloudinaryService cloudinaryService) : IRequestHandler<CreateTemplateUseCase, ApiBaseResponse>
 {
 	private readonly IRepositoryManager _repManager = repManager;
 	private readonly ICurrentUserService _currentUserService = currentUserService;
-	private readonly IMapper _mapper = mapper;
+	private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
 
 	public async Task<ApiBaseResponse> Handle(CreateTemplateUseCase request, CancellationToken cancellationToken)
 	{
@@ -52,6 +54,22 @@ public class CreateTemplateHandler(IRepositoryManager repManager, ICurrentUserSe
 			allowedUsers.AddRange(fetchedUsers);
 		}
 
+		IFormFile? imageFile = request.TemplateData.ImageFile;
+		(string SecureUrl, string PublicId)? result = null;
+		if (imageFile != null && imageFile.Length > 0)
+		{
+			try
+			{
+				result = await _cloudinaryService.UploadImageAsync(imageFile);
+			}
+			catch (Exception ex)
+			{
+				return new ApiBadRequestResponse($"Failed to upload image: {ex.Message}");
+			}
+		}
+
+		if(result == null) 
+			return new ApiBadRequestResponse($"Failed to upload image");
 
 		var template = new Template(
 			Guid.NewGuid(),
@@ -59,18 +77,20 @@ public class CreateTemplateHandler(IRepositoryManager repManager, ICurrentUserSe
 			request.TemplateData.Description,
 			userId.Value,
 			request.TemplateData.TopicId,
-			request.TemplateData.IsPublic
+			request.TemplateData.IsPublic,
+			result.Value.SecureUrl,
+			result.Value.PublicId
 		);
 
-		template.SetTags(tags); 
+		template.SetTags(tags);
 
 		if (!request.TemplateData.IsPublic)
 		{
-			template.SetAccess(false, allowedUsers); 
+			template.SetAccess(false, allowedUsers);
 		}
 
-
 		await _repManager.Templates.CreateAsync(template, cancellationToken);
+
 		await _repManager.CommitAsync(cancellationToken);
 
 		return new ApiOkResponse<Guid>(template.Id);

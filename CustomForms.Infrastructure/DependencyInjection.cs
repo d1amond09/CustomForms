@@ -39,6 +39,7 @@ public static class DependencyInjection
 	private static IServiceCollection AddServices(this IServiceCollection services)
 	{
 		services.AddScoped<IDataShapeService<UserDto>, DataShapeService<UserDto>>();
+		services.AddScoped<ICloudinaryService, CloudinaryService>();
 
 		return services;
 	}

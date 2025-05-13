@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using CustomForms.Domain.Forms;
+using CustomForms.Domain.Templates;
 
 namespace CustomForms.Infrastructure.Templates.Persistence;
 

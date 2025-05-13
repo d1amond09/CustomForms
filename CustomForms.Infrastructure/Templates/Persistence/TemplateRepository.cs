@@ -6,6 +6,7 @@ using CustomForms.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
 using CustomForms.Infrastructure.Common.Persistence.Extensions;
 using System.Diagnostics;
+using CustomForms.Domain.Templates;
 
 namespace CustomForms.Infrastructure.Templates.Persistence;
 

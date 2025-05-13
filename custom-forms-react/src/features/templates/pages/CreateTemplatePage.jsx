@@ -22,7 +22,10 @@ const CreateTemplatePage = () => {
     const [allowedUsers, setAllowedUsers] = useState([]);
     const [apiError, setApiError] = useState(null);
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
+
+    const { register, handleSubmit, control, watch, formState: { errors } } = useForm({
         defaultValues: {
             title: '',
             description: '',
@@ -31,6 +34,17 @@ const CreateTemplatePage = () => {
         }
     });
     const isPublic = watch('isPublic');
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+            setPreviewImage(URL.createObjectURL(file)); 
+        } else {
+            setSelectedFile(null);
+            setPreviewImage(null);
+        }
+    };
 
     const removeUser = (userIdToRemove) => {
         setAllowedUsers(allowedUsers.filter(u => u.id !== userIdToRemove));
@@ -95,6 +109,7 @@ const CreateTemplatePage = () => {
             topicId: data.topicId || null,
             tags: tags,
             allowedUserIds: !data.isPublic ? allowedUsers.map(u => u.id) : null,
+            imageFile: selectedFile, 
         };
 
         if (!templateData.topicId) {
@@ -117,7 +132,7 @@ const CreateTemplatePage = () => {
         }
     };
 
-    const topics = data?.items;
+    const topics = data?.items || [];
     const noTopicsAvailable = !isLoadingTopics && !isErrorTopics && topics.length === 0;
 
     const selectStyles = {
@@ -161,6 +176,17 @@ const CreateTemplatePage = () => {
                                 {...register('title', { required: t('createTemplate.errors.titleRequired', 'Title is required') })}
                             />
                             <Form.Control.Feedback type="invalid">{errors.title?.message}</Form.Control.Feedback>
+                        </Form.Group>
+
+                        <Form.Group controlId="templateImageFile" className="mb-3">
+                            <Form.Label>{t('createTemplate.labels.image', 'Optional Image/Illustration')}</Form.Label>
+                            <Form.Control type="file" accept="image/png, image/jpeg, image/gif" onChange={handleFileChange} />
+                            {previewImage && (
+                                <div className="mt-2">
+                                    <img src={previewImage} alt="Preview" style={{ maxWidth: '200px', maxHeight: '200px', borderRadius: '0.25rem' }} />
+                                </div>
+                            )}
+                            <Form.Text muted>{t('createTemplate.hints.image', 'Recommended size: 800x600px. Max 2MB.')}</Form.Text>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="templateDescription">

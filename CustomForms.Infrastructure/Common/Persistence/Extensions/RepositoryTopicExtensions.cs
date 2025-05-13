@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using CustomForms.Domain.Forms;
+using CustomForms.Domain.Templates;
 
 namespace CustomForms.Infrastructure.Common.Persistence.Extensions;
 

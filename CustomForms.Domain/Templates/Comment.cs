@@ -1,7 +1,8 @@
 ﻿using CustomForms.Domain.Common;
+using CustomForms.Domain.Forms;
 using CustomForms.Domain.Users;
 
-namespace CustomForms.Domain.Forms;
+namespace CustomForms.Domain.Templates;
 
 public class Comment : AuditableEntity
 {

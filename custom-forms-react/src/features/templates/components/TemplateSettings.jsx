@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { Form, Button, Card, Spinner, Alert, Badge, CloseButton, Stack } from 'react-bootstrap';
+import { Form, Button, Card, Spinner, Alert, Badge, CloseButton, Stack, Image as BsImage } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useUpdateTemplateMutation, useSetAccessMutation, useSetTagsMutation } from '../../../app/api/templatesApi';
 import { useGetTopicsQuery } from '../../../app/api/topicsApi';
@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 
 const TemplateSettings = ({ template, onSettingsUpdated }) => {
     const { t } = useTranslation();
-    const { id: templateId, title, description, topicId, isPublic, tags: currentTags = [], allowedUsers: currentAllowedUsers = [] } = template;
+    const { id: templateId, title, description, topicId, isPublic, imageUrl: currentImageUrl, tags: currentTags = [], allowedUsers: currentAllowedUsers = [] } = template;
 
     const { data: topicsData, isLoading: isLoadingTopics, isError: isErrorTopics } = useGetTopicsQuery({ pageNumber: 1, pageSize: 999 });
     const [updateTemplate, { isLoading: isUpdatingMeta, error: metaError }] = useUpdateTemplateMutation();
@@ -25,6 +25,10 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
     const [tagInput, setTagInput] = useState('');
     const [allowedUsers, setAllowedUsers] = useState([]);
     const [apiError, setApiError] = useState(null);
+
+    const [newImageFile, setNewImageFile] = useState(null);
+    const [previewNewImage, setPreviewNewImage] = useState(null);
+    const [removeCurrentImage, setRemoveCurrentImage] = useState(false);
 
     const { register, handleSubmit, control, watch, reset, formState: { errors, isDirty: isMetaDirty } } = useForm();
     const watchedIsPublic = watch('isPublic');
@@ -63,6 +67,27 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
         const currentTagsString = [...tags].sort().join(',');
         setTagsChanged(initialTagsString !== currentTagsString);
     }, [tags, template]);
+
+
+    const handleNewFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setNewImageFile(file);
+            setPreviewNewImage(URL.createObjectURL(file));
+            setRemoveCurrentImage(false);
+        } else {
+            setNewImageFile(null);
+            setPreviewNewImage(null);
+        }
+    };
+
+    const handleRemoveCurrentImageChange = (e) => {
+        setRemoveCurrentImage(e.target.checked);
+        if (e.target.checked) {
+            setNewImageFile(null); 
+            setPreviewNewImage(null);
+        }
+    };
 
     const handleTagInputKeyDown = (e) => {
         if ((e.key === ',' || e.key === 'Enter') && tagInput.trim()) {
@@ -119,10 +144,19 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
 
     const onMetaSubmit = async (data) => {
         setApiError(null);
-        const updateData = { title: data.title, description: data.description, topicId: data.topicId };
+        const updateData = {
+            title: data.title,
+            description: data.description,
+            topicId: data.topicId,
+            newImageFile: newImageFile,        
+            removeCurrentImage: removeCurrentImage
+        };
         try {
             await updateTemplate({ id: templateId, templateData: updateData }).unwrap();
             toast.success(t('templateSettings.updateSuccess.details', 'Details updated'));
+            setNewImageFile(null); 
+            setPreviewNewImage(null);
+            setRemoveCurrentImage(false);
             reset(data, { keepDirty: false, keepValues: true });
             if (onSettingsUpdated) onSettingsUpdated();
         } catch (err) {
@@ -232,6 +266,35 @@ const TemplateSettings = ({ template, onSettingsUpdated }) => {
                         <Form.Label>{t('createTemplate.labels.title')} <span className="text-danger">*</span></Form.Label>
                         <Form.Control type="text" isInvalid={!!errors.title} {...register('title', { required: t('createTemplate.errors.titleRequired') })} />
                         <Form.Control.Feedback type="invalid">{errors.title?.message}</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group controlId="settingsImage" className="mb-3">
+                        <Form.Label>{t('templateSettings.currentImage', 'Current Image')}</Form.Label>
+                        {currentImageUrl && !previewNewImage && !removeCurrentImage ? (
+                            <div className="mb-2">
+                                <BsImage src={currentImageUrl} alt="Current template" thumbnail style={{ maxHeight: '150px' }} />
+                            </div>
+                        ) : previewNewImage ? (
+                            <div className="mb-2">
+                                <BsImage src={previewNewImage} alt="New preview" thumbnail style={{ maxHeight: '150px' }} />
+                            </div>
+                        ) : (
+                            <p className="text-muted small">{t('templateSettings.noImage', 'No image uploaded.')}</p>
+                        )}
+
+                        <Form.Label htmlFor="newImageFile" className="mt-2">{t('templateSettings.uploadNew', 'Upload New Image')}</Form.Label>
+                        <Form.Control type="file" id="newImageFile" accept="image/*" onChange={handleNewFileChange} />
+
+                        {currentImageUrl && ( 
+                            <Form.Check
+                                type="checkbox"
+                                id="removeCurrentImageCheckbox"
+                                label={t('templateSettings.removeCurrentImage', 'Remove current image')}
+                                checked={removeCurrentImage}
+                                onChange={handleRemoveCurrentImageChange}
+                                className="mt-2"
+                            />
+                        )}
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="settingsDescription">

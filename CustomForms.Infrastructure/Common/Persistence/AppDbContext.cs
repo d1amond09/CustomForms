@@ -4,6 +4,7 @@ using CustomForms.Domain.Users;
 using CustomForms.Domain.Forms;
 using CustomForms.Infrastructure.Users.Persistence;
 using CustomForms.Infrastructure.Templates.Persistence;
+using CustomForms.Domain.Templates;
 
 namespace CustomForms.Infrastructure.Common.Persistence;
 

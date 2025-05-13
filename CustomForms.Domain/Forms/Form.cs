@@ -1,5 +1,6 @@
 ﻿using CustomForms.Domain.Common;
 using CustomForms.Domain.Common.Exceptions;
+using CustomForms.Domain.Templates;
 using CustomForms.Domain.Users;
 
 namespace CustomForms.Domain.Forms;
@@ -45,21 +46,5 @@ public class Form : AuditableEntity
 		}
 		answer.SetValue(newValue);
 		SetModifiedDate();
-	}
-
-	public bool CanUserView(User? user, Guid templateAuthorId)
-	{
-		if (user == null) return false;
-		if (user.IsAdmin()) return true;
-		if (user.Id == UserId) return true; 
-		if (user.Id == templateAuthorId) return true; 
-		return false;
-	}
-
-	public bool CanUserManage(User? user) 
-	{
-		if (user == null) return false;
-		if (user.IsAdmin()) return true;
-		return user.Id == UserId;
 	}
 }

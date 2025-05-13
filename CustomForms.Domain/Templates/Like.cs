@@ -1,7 +1,7 @@
 ﻿using CustomForms.Domain.Common;
 using CustomForms.Domain.Users;
 
-namespace CustomForms.Domain.Forms;
+namespace CustomForms.Domain.Templates;
 
 public class Like : BaseEntity
 {

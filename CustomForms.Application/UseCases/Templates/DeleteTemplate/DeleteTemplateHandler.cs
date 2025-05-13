@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CustomForms.Application.UseCases.Templates.DeleteTemplate;
 
-public class DeleteTemplateHandler(IRepositoryManager repManager, ICurrentUserService currentUserService) : IRequestHandler<DeleteTemplateUseCase, ApiBaseResponse>
+public class DeleteTemplateHandler(IRepositoryManager repManager, ICurrentUserService currentUserService, ICloudinaryService cloudinaryService) : IRequestHandler<DeleteTemplateUseCase, ApiBaseResponse>
 {
 	private readonly IRepositoryManager _repManager = repManager;
 	private readonly ICurrentUserService _currentUserService = currentUserService;
-
+	private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
 	public async Task<ApiBaseResponse> Handle(DeleteTemplateUseCase request, CancellationToken cancellationToken)
 	{
 		var template = await _repManager.Templates
@@ -36,6 +36,15 @@ public class DeleteTemplateHandler(IRepositoryManager repManager, ICurrentUserSe
 		if (formCount > 0)
 		{
 			return new ApiBadRequestResponse($"Cannot delete template: {formCount} form(s) have been submitted using this template.");
+		}
+
+		if (!string.IsNullOrEmpty(template.ImagePublicId))
+		{
+			bool deletedFromCloud = await _cloudinaryService.DeleteImageAsync(template.ImagePublicId);
+			if (!deletedFromCloud)
+			{
+				Console.WriteLine($"Warning: Failed to delete image {template.ImagePublicId} from Cloudinary for template {template.Id}");
+			}
 		}
 
 		_repManager.Templates.Delete(template);

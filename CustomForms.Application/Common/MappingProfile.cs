@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CustomForms.Application.Common.DTOs;
 using CustomForms.Domain.Forms;
+using CustomForms.Domain.Templates;
 using CustomForms.Domain.Users;
 
 namespace CustomForms.Application.Common;

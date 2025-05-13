@@ -1,4 +1,5 @@
 ﻿using CustomForms.Domain.Forms;
+using CustomForms.Domain.Templates;
 using Microsoft.AspNetCore.Identity;
 
 namespace CustomForms.Domain.Users;
@@ -103,7 +104,5 @@ public class User : IdentityUser<Guid>
 	}
 
 	public static bool operator !=(User? a, User? b) => !(a == b);
-
-	public bool IsAdmin() => false;
 
 }

@@ -93,7 +93,7 @@ public class TemplatesController(ISender sender) : ApiControllerBase
 	[ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
 	[ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status403Forbidden)]
-	public async Task<IActionResult> CreateTemplate([FromBody] CreateTemplateDto templateData)
+	public async Task<IActionResult> CreateTemplate([FromForm] CreateTemplateDto templateData)
 	{
 		var result = await _sender.Send(new CreateTemplateUseCase(templateData));
 		if (result.Success && result is ApiOkResponse<Guid> okResult)
@@ -109,7 +109,7 @@ public class TemplatesController(ISender sender) : ApiControllerBase
 	[ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
 	[ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status403Forbidden)]
-	public async Task<IActionResult> UpdateTemplate(Guid id, [FromBody] UpdateTemplateDto templateData)
+	public async Task<IActionResult> UpdateTemplate(Guid id, [FromForm] UpdateTemplateDto templateData)
 	{
 		var result = await _sender.Send(new UpdateTemplateUseCase(id, templateData));
 		return result.Success ? Ok() : ProcessError(result);

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 
 namespace CustomForms.Application.Common.DTOs;
 
@@ -42,7 +43,22 @@ public record TemplateDetailsDto
 	public ICollection<TagDto> Tags { get; set; } = [];
 }
 
-public record CreateTemplateDto(string Title, string Description, Guid TopicId, bool IsPublic, List<string>? Tags, List<Guid>? AllowedUserIds);
-public record UpdateTemplateDto(string Title, string Description, Guid TopicId, string? ImageUrl);
+public record CreateTemplateDto(
+	string Title,
+	string Description,
+	Guid TopicId,
+	bool IsPublic,
+	List<string>? Tags,
+	List<Guid>? AllowedUserIds,
+	IFormFile? ImageFile 
+);
+
+public record UpdateTemplateDto(
+	string Title,
+	string Description,
+	Guid TopicId,
+	IFormFile? NewImageFile, 
+	bool RemoveCurrentImage 
+);
 public record SetTemplateAccessDto(bool IsPublic, List<Guid>? AllowedUserIds);
 public record ReorderQuestionsDto(List<Guid> OrderedQuestionIds);

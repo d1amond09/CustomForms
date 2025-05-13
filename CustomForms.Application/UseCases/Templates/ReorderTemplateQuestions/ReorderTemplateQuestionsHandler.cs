@@ -1,6 +1,7 @@
 ﻿using CustomForms.Application.Common.DTOs;
 using CustomForms.Application.Common.Interfaces;
 using CustomForms.Application.Common.Responses;
+using CustomForms.Domain.Common.Constants;
 using CustomForms.Domain.Common.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -25,8 +26,10 @@ public class ReorderTemplateQuestionsHandler(IRepositoryManager repManager, ICur
 		}
 
 		var user = await _currentUserService.GetCurrentUserAsync(cancellationToken);
+		var isAdmin = await _currentUserService.IsAdminAsync();
+		bool canUserManage = template.CanUserManage(user) || isAdmin;
 
-		if (!template.CanUserManage(user))
+		if (!canUserManage)
 		{
 			return new ApiForbiddenResponse("You do not have permission to modify this template.");
 		}

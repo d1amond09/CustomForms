@@ -1,4 +1,4 @@
-﻿namespace CustomForms.Domain.Forms;
+﻿namespace CustomForms.Domain.Templates;
 
 public enum QuestionType
 {

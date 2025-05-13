@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CloudinaryDotNet" Version="1.27.5" />
+    <PackageReference Include="dotenv.net" Version="3.2.1" />
     <PackageReference Include="MailKit" Version="4.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
@@ -24,6 +26,12 @@
   <ItemGroup>
     <ProjectReference Include="..\CustomForms.Application\CustomForms.Application.csproj" />
     <ProjectReference Include="..\CustomForms.Domain\CustomForms.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update=".env">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

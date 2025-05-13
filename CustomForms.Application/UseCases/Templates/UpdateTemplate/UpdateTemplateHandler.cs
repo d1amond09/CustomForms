@@ -5,14 +5,16 @@ using MediatR;
 
 namespace CustomForms.Application.UseCases.Templates.UpdateTemplate;
 
-public class UpdateTemplateHandler(IRepositoryManager repManager, ICurrentUserService currentUserService /*, ICloudStorageService cloudStorage*/) : IRequestHandler<UpdateTemplateUseCase, ApiBaseResponse>
+public class UpdateTemplateHandler(IRepositoryManager repManager, ICurrentUserService currentUserService, ICloudinaryService cloudinaryService) 
+	: IRequestHandler<UpdateTemplateUseCase, ApiBaseResponse>
 {
 	private readonly IRepositoryManager _repManager = repManager;
 	private readonly ICurrentUserService _currentUserService = currentUserService;
+	private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
 
 	public async Task<ApiBaseResponse> Handle(UpdateTemplateUseCase request, CancellationToken cancellationToken)
 	{
-		var template = await _repManager.Templates.FindAsync(request.TemplateId); 
+		var template = await _repManager.Templates.FindAsync(request.TemplateId);
 		if (template == null)
 		{
 			return new ApiNotFoundResponse($"Template with ID '{request.TemplateId}' not found.");
@@ -35,16 +37,43 @@ public class UpdateTemplateHandler(IRepositoryManager repManager, ICurrentUserSe
 			}
 		}
 
-		
-		string? finalImageUrl = request.TemplateData.ImageUrl; 
-
-
 		template.UpdateDetails(
 			request.TemplateData.Title,
 			request.TemplateData.Description,
-			request.TemplateData.TopicId,
-			finalImageUrl
+			request.TemplateData.TopicId
 		);
+
+		string? oldImagePublicId = template.ImagePublicId;
+		bool imageChanged = false;
+
+		if (request.TemplateData.RemoveCurrentImage)
+		{
+			if (!string.IsNullOrEmpty(oldImagePublicId))
+			{
+				await _cloudinaryService.DeleteImageAsync(oldImagePublicId);
+			}
+			template.SetImage(null, null);
+			imageChanged = true;
+		}
+		else if (request.TemplateData.NewImageFile != null && request.TemplateData.NewImageFile.Length > 0)
+		{
+			if (!string.IsNullOrEmpty(oldImagePublicId))
+			{
+				await _cloudinaryService.DeleteImageAsync(oldImagePublicId);
+			}
+
+			var uploadResult = await _cloudinaryService.UploadImageAsync(request.TemplateData.NewImageFile);
+			if (uploadResult.HasValue)
+			{
+				template.SetImage(uploadResult.Value.SecureUrl, uploadResult.Value.PublicId);
+			}
+			else
+			{
+				Console.WriteLine($"Warning: Failed to upload new image for template {template.Id}, but other details will be updated.");
+			}
+			imageChanged = true;
+		}
+
 
 		await _repManager.CommitAsync(cancellationToken);
 

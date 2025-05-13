@@ -1,6 +1,6 @@
 ﻿using CustomForms.Domain.Common;
 
-namespace CustomForms.Domain.Forms;
+namespace CustomForms.Domain.Templates;
 
 public class Question : BaseEntity
 {

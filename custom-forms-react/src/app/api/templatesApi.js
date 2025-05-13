@@ -70,20 +70,51 @@ export const templatesApi = apiSlice.injectEndpoints({
         }),
 
         createTemplate: builder.mutation({
-            query: (templateData) => ({ 
-                url: '/templates',
-                method: 'POST',
-                body: templateData,
-            }),
+            query: (templateDataWithFile) => {
+                const formData = new FormData();
+                formData.append('title', templateDataWithFile.title);
+                formData.append('description', templateDataWithFile.description || '');
+                formData.append('topicId', templateDataWithFile.topicId);
+                formData.append('isPublic', templateDataWithFile.isPublic);
+
+                if (templateDataWithFile.tags && templateDataWithFile.tags.length > 0) {
+                    templateDataWithFile.tags.forEach(tag => formData.append('tags[]', tag));
+                }
+                if (templateDataWithFile.allowedUserIds && templateDataWithFile.allowedUserIds.length > 0) {
+                    templateDataWithFile.allowedUserIds.forEach(id => formData.append('allowedUserIds[]', id));
+                }
+                if (templateDataWithFile.imageFile) {
+                    formData.append('imageFile', templateDataWithFile.imageFile);
+                }
+
+                return {
+                    url: '/templates',
+                    method: 'POST',
+                    body: formData,
+                };
+            },
             invalidatesTags: [{ type: 'Template', id: 'LIST' }, { type: 'Template', id: 'LATEST_LIST' }], 
         }),
 
         updateTemplate: builder.mutation({
-            query: ({ id, templateData }) => ({ 
-                url: `/templates/${id}`,
-                method: 'PUT',
-                body: templateData,
-            }),
+            query: ({ id, templateDataWithFile }) => { 
+                const formData = new FormData();
+                formData.append('title', templateDataWithFile.title);
+                formData.append('description', templateDataWithFile.description || '');
+                formData.append('topicId', templateDataWithFile.topicId);
+                formData.append('removeCurrentImage', templateDataWithFile.removeCurrentImage);
+
+                if (templateDataWithFile.newImageFile) {
+                    formData.append('newImageFile', templateDataWithFile.newImageFile);
+                }
+
+                return {
+                    url: `/templates/${id}`,
+                    method: 'PUT',
+                    body: formData,
+                    // formData: true,
+                };
+            },
             invalidatesTags: (result, error, { id }) => [{ type: 'Template', id }, { type: 'Template', id: 'LIST' }],
         }),
 

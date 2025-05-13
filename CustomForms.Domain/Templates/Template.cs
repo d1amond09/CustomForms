@@ -1,9 +1,10 @@
-﻿using CustomForms.Domain.Common;
+﻿using CustomForms.Domain.Common.Exceptions;
 using CustomForms.Domain.Common.Constants;
-using CustomForms.Domain.Common.Exceptions;
+using CustomForms.Domain.Common;
 using CustomForms.Domain.Users;
+using CustomForms.Domain.Forms;
 
-namespace CustomForms.Domain.Forms;
+namespace CustomForms.Domain.Templates;
 
 public class Template : AuditableEntity
 {
@@ -14,6 +15,7 @@ public class Template : AuditableEntity
 	public Guid TopicId { get; private set; }
 	public virtual Topic Topic { get; private set; } = null!; 
 	public string? ImageUrl { get; private set; }
+	public string? ImagePublicId { get; private set; }
 	public bool IsPublic { get; private set; } 
 
 	private readonly List<Question> _questions = [];
@@ -31,10 +33,10 @@ public class Template : AuditableEntity
 	private readonly List<Like> _likes = [];
 	public IReadOnlyCollection<Like> Likes => _likes.AsReadOnly();
 
-	public virtual ICollection<Form> Forms { get; private set; } = new List<Form>();
+	public virtual ICollection<Form> Forms { get; private set; } = [];
 
 
-	public Template(Guid id, string title, string description, Guid authorId, Guid topicId, bool isPublic = true, string? imageUrl = null) : base(id)
+	public Template(Guid id, string title, string description, Guid authorId, Guid topicId, bool isPublic = true, string? imageUrl = null, string? imagePublicId = null) : base(id)
 	{
 		if (string.IsNullOrWhiteSpace(title)) throw new ArgumentException("Template title cannot be empty.", nameof(title));
 		if (authorId == Guid.Empty) throw new ArgumentException("Author ID cannot be empty.", nameof(authorId));
@@ -46,9 +48,10 @@ public class Template : AuditableEntity
 		TopicId = topicId;
 		IsPublic = isPublic;
 		ImageUrl = imageUrl;
+		ImagePublicId = imagePublicId;
 	}
 
-	public void UpdateDetails(string title, string description, Guid topicId, string? imageUrl)
+	public void UpdateDetails(string title, string description, Guid topicId) 
 	{
 		if (string.IsNullOrWhiteSpace(title)) throw new ArgumentException("Template title cannot be empty.", nameof(title));
 		if (topicId == Guid.Empty) throw new ArgumentException("Topic ID cannot be empty.", nameof(topicId));
@@ -56,7 +59,13 @@ public class Template : AuditableEntity
 		Title = title;
 		Description = description;
 		TopicId = topicId;
-		ImageUrl = imageUrl; 
+		SetModifiedDate();
+	}
+
+	public void SetImage(string? imageUrl, string? imagePublicId)
+	{
+		ImageUrl = imageUrl;
+		ImagePublicId = imagePublicId;
 		SetModifiedDate();
 	}
 
@@ -197,7 +206,7 @@ public class Template : AuditableEntity
 	{
 		if (comment.TemplateId != this.Id) throw new Exception("Comment does not belong to this template.");
 		_comments.Add(comment);
-		SetModifiedDate(); // Template itself is modified when comments change
+		SetModifiedDate(); 
 	}
 
 	public void RemoveComment(Guid commentId, Guid userId, bool isAdmin)
@@ -205,7 +214,6 @@ public class Template : AuditableEntity
 		var comment = _comments.FirstOrDefault(c => c.Id == commentId);
 		if (comment != null)
 		{
-			// Only author or admin can delete
 			if (comment.UserId == userId || isAdmin)
 			{
 				_comments.Remove(comment);
@@ -242,7 +250,6 @@ public class Template : AuditableEntity
 	{
 		if (IsPublic) return true;
 		if (user == null) return false; 
-		if (user.IsAdmin()) return true;
 		if (user.Id == AuthorId) return true;
 		return _allowedUsers.Any(u => u.Id == user.Id);
 	}
@@ -258,7 +265,6 @@ public class Template : AuditableEntity
 	public bool CanUserManage(User? user)
 	{
 		if (user == null) return false;
-		if (user.IsAdmin()) return true;
 		return user.Id == AuthorId;
 	}
 }
